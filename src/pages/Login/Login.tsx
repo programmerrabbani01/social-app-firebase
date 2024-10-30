@@ -27,7 +27,7 @@ export default function Login() {
       await signInWithEmailAndPassword(auth, input.email, input.password);
 
       // Redirect to /home after successful sign-in
-      navigate("/home");
+      navigate("/", { state: { message: "Login successful!" } });
 
       // reset form
       setInput({
@@ -43,11 +43,13 @@ export default function Login() {
     }
   };
 
+  // register tost
+
   return (
     <>
       <section className="bg-white dark:bg-gray-900">
         <div className="container flex items-center justify-center min-h-screen px-6 mx-auto">
-          <form className="w-full max-w-md pt-5 pb-10">
+          <form className="w-full max-w-md pt-5 pb-10" onSubmit={handleSubmit}>
             <div className="flex justify-center mx-auto">
               <img
                 className="w-48 h-40"
@@ -118,7 +120,6 @@ export default function Login() {
               <button
                 type="submit"
                 className="w-full px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-500 rounded-lg hover:bg-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50"
-                onClick={handleSubmit}
               >
                 Sign In
               </button>

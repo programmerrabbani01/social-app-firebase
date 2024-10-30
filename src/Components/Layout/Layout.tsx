@@ -1,13 +1,43 @@
+import { signOut, User } from "firebase/auth";
 import { useState } from "react";
+import { auth } from "../../firebase/auth.ts";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
-export default function Layout({ user }) {
+interface LayoutProps {
+  user: User | null;
+}
+
+export default function Layout({ user }: LayoutProps) {
   console.log(user);
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
+  const navigate = useNavigate();
+
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
+
+  // log out
+
+  const handleUserLogOut = async () => {
+    console.log("Logging out..."); // Debugging statement
+    try {
+      await toast.promise(signOut(auth), {
+        pending: "Logging out...",
+        success: "Logout successful!",
+        error: "Failed to logout. Please try again.",
+      });
+      // Delay navigation to allow time for the toast to display
+      setTimeout(() => {
+        navigate("/login");
+      }, 2000); // 2 seconds delay
+    } catch (error) {
+      console.error("Logout error:", error);
+    }
+  };
+
   return (
     <>
       <div className="bg-white w-full flex xl:items-center xl:gap-[15px] items-center justify-between transition-all duration-300 py-2 shadow-md">
@@ -26,9 +56,12 @@ export default function Layout({ user }) {
             <div className=""></div>
             {/* icon */}
             <div className="relative flex items-center space-x-2">
-              <span className="font-medium text-gray-700">Username</span>
+              <span className="font-medium text-gray-700">
+                {user?.displayName || "Username"}
+              </span>
               <img
-                src="/profile-icon.png" // replace with the path to your icon image
+                src={user?.photoURL || "/profile-icon.png"}
+                // replace with the path to your icon image
                 alt="User Icon"
                 onClick={toggleDropdown}
                 className="w-10 h-10 rounded-full cursor-pointer"
@@ -40,7 +73,10 @@ export default function Layout({ user }) {
                     <li className="px-4 py-2 cursor-pointer hover:bg-white">
                       Profile
                     </li>
-                    <li className="px-4 py-2 cursor-pointer hover:bg-white">
+                    <li
+                      onClick={handleUserLogOut}
+                      className="px-4 py-2 cursor-pointer hover:bg-white"
+                    >
                       Logout
                     </li>
                   </ul>

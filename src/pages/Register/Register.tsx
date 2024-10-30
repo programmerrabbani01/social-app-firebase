@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { uploadFileToStorage } from "../../firebase/fileData.ts";
 import {
   createUserWithEmailAndPassword,
@@ -9,6 +9,7 @@ import {
 import { auth } from "../../firebase/auth.ts";
 import { createAUser } from "../../firebase/model.ts";
 import { FieldValue, serverTimestamp } from "firebase/firestore";
+import { toast } from "react-toastify";
 
 interface InputState {
   name: string;
@@ -32,6 +33,8 @@ interface FireStoreUser {
 }
 
 export default function Register() {
+  const navigate = useNavigate();
+
   const [input, setInput] = useState<InputState>({
     name: "",
     userName: "",
@@ -39,6 +42,7 @@ export default function Register() {
     password: "",
   });
   const [file, setFile] = useState<File | null>(null);
+  const [isRegistering, setIsRegistering] = useState(false);
 
   //   input value changes
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -51,6 +55,7 @@ export default function Register() {
   //   submit form
   const handleUserRegister = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setIsRegistering(true);
 
     const photoLink = file ? await uploadFileToStorage(file) : undefined;
 
@@ -97,14 +102,22 @@ export default function Register() {
       };
 
       await createAUser("users", firestoreUser, res.user.uid);
+      // Show toast notification for successful registration
+      toast.success("Registration successful!");
+
+      // Explicitly navigate to the login page without waiting for onAuthStateChanged
       await signOut(auth);
-      await signOut(auth);
+      setIsRegistering(false);
+      navigate("/login");
+
+      // await signOut(auth);
     } catch (error) {
       if (error instanceof Error) {
         console.log(error.message); // Ensures error is of type Error before accessing `message`
       } else {
         console.log("An unknown error occurred.");
       }
+      setIsRegistering(false);
     }
 
     // reset form
@@ -276,7 +289,7 @@ export default function Register() {
                 type="submit"
                 className="w-full px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-500 rounded-lg hover:bg-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50"
               >
-                Sign Up
+                {isRegistering ? "Registering..." : "Sign Up"}
               </button>
               {/* or sign up with social media */}
               <div className="flex items-center justify-between mt-4">
