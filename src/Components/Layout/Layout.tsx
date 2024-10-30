@@ -1,6 +1,8 @@
 import { useState } from "react";
 
-export default function Layout() {
+export default function Layout({ user }) {
+  console.log(user);
+
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const toggleDropdown = () => {

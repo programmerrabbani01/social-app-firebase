@@ -1,9 +1,9 @@
 import Layout from "../../Components/Layout/Layout.tsx";
 
-export default function Home() {
+export default function Home({ user }) {
   return (
     <>
-      <Layout />
+      <Layout user={user} />
     </>
   );
 }
