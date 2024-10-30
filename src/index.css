@@ -1,0 +1,12 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .my_container {
+    @apply sm:w-[540px] sm:px-3 xl:w-[1140px] xl:px-3 lg:w-[960px] lg:px-3 md:w-[720px] md:px-3 px-3 mx-auto;
+  }
+  body {
+    background-color: #e5e7eb;
+  }
+}
