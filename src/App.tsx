@@ -8,6 +8,7 @@ import { auth } from "./firebase/auth.ts";
 import ProtectedRoute from "./Components/ProtectedRoute/ProtectedRoute.tsx";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Profile from "./pages/Profile/Profile.tsx";
 
 function App() {
   const [user, setUser] = useState<User | null>(null);
@@ -47,6 +48,14 @@ function App() {
             element={
               <ProtectedRoute user={user}>
                 <Home user={user} />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute user={user}>
+                <Profile user={user} />
               </ProtectedRoute>
             }
           />

@@ -2,7 +2,7 @@ import { signOut, User } from "firebase/auth";
 import { useState } from "react";
 import { auth } from "../../firebase/auth.ts";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 interface LayoutProps {
   user: User | null;
@@ -71,7 +71,7 @@ export default function Layout({ user }: LayoutProps) {
                 <div className="absolute w-48 mt-2 bg-[#E5E7EB] rounded-md shadow-lg right-5 top-12">
                   <ul className="py-1">
                     <li className="px-4 py-2 cursor-pointer hover:bg-white">
-                      Profile
+                      <Link to="/profile">Profile</Link>
                     </li>
                     <li
                       onClick={handleUserLogOut}
