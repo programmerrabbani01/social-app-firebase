@@ -4,6 +4,7 @@ import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import FbPost from "../../Components/FbPost/FbPost.tsx";
 
 interface HomeProps {
   user: User | null;
@@ -20,6 +21,9 @@ export default function Home({ user }: HomeProps) {
   return (
     <>
       <Layout user={user} />
+      <div className="">
+        <FbPost />
+      </div>
     </>
   );
 }
