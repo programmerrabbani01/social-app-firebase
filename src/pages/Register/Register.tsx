@@ -71,22 +71,6 @@ export default function Register() {
         photoURL: photoLink,
       });
 
-      // await createAUser(
-      //   "users",
-      //   {
-      //     id: res.user.uid,
-      //     name: res.user.displayName,
-      //     userName: input.userName,
-      //     photo: res.user.photoURL,
-      //     email: res.user.email,
-      //     password: res.user.password,
-      //     friends: [],
-      //     followers: [],
-      //     createdAt: serverTimestamp(),
-      //     updatedAt: null,
-      //   },
-      //   res.user.uid
-      // );
       const firestoreUser: FireStoreUser = {
         id: res.user.uid,
         name: res.user.displayName ?? null,
@@ -300,7 +284,6 @@ export default function Register() {
                 <span className="w-1/5 border-b dark:border-gray-400 lg:w-1/5" />
               </div>
 
-              {/* Social Media Login */}
               {/* already Have A Account */}
               <div className="mt-6 text-center ">
                 <Link
